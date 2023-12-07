@@ -1,0 +1,27 @@
+{
+  "folders": [
+    {
+      "path": ".",
+      "name": "Advent of Code"
+    }
+  ],
+
+  "launch": {
+    "configurations": [
+      {
+        "name": "Python Debug",
+        "type": "python",
+        "request": "launch",
+        "program": "${file}",
+        "args": [
+
+        ],
+        "cwd": "${fileDirname}",
+        "python": "${userHome}/Library/Caches/pypoetry/virtualenvs/advent-of-code-2023-ZtgfiVem-py3.12/bin/python",
+        "console": "integratedTerminal",
+        "stopOnEntry": false,
+        "justMyCode": false
+      }
+    ]
+  }
+}
