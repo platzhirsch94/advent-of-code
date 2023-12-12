@@ -2,7 +2,6 @@ from queue import Queue
 
 import math
 import numpy as np
-import re
 
 from functions import read_lines_from_file
 
@@ -32,10 +31,6 @@ def find_element_position_numpy(matrix, element):
         return None
 
 
-global counter_list
-counter_list = []
-
-
 def get_distance(lines):
     line_num = len(lines)
     line_width = len(lines[0]) - 1  # "\n"
@@ -43,9 +38,18 @@ def get_distance(lines):
         line_num, line_width
     )
 
-    S_pos = find_element_position_numpy(arr, "S")
     queue = Queue()
-    queue.put((S_pos, "S", 0, (0, 0)))
+    S_pos = find_element_position_numpy(arr, "S")
+    positions = [S_pos]
+
+    # Find first element -> do not check in both directions
+    for dr, allowed in MAPPER["S"].items():
+        if np.any((new_pos := S_pos + dr) < 0):
+            continue
+        elif (new_val := arr[tuple(new_pos)]) in allowed:
+            queue.put((new_pos, new_val, 1, dr))
+            positions.append(new_pos)
+            break
 
     while not queue.empty():
         pos, val, counter, old_dir = queue.get()
@@ -58,7 +62,8 @@ def get_distance(lines):
                 return math.ceil(counter / 2)
             elif new_val in allowed:
                 queue.put((new_pos, new_val, counter + 1, dr))
-                print(counter)
+                positions.append(new_pos)
+
     return -1  # If no valid path is found
 
 
